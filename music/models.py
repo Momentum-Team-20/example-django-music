@@ -13,9 +13,7 @@ class BaseModel(models.Model):
 
 class Album(BaseModel):
     title = models.CharField(max_length=255)
-    artist = models.ForeignKey(
-        "Artist", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
     release_date = models.DateField(blank=True, null=True)
     genres = models.ManyToManyField("Genre", related_name="albums")
     favorited_by = models.ManyToManyField(CustomUser, related_name="favorite_albums")

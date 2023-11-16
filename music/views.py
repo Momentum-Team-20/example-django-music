@@ -36,7 +36,13 @@ def add_album(request):
     if request.method == "POST":
         form = AlbumForm(data=request.POST)
         if form.is_valid():
-            album = form.save()
+            artist, created = Artist.objects.get_or_create(
+                name=form.cleaned_data["artist_name"],
+                type=Artist.INDIVIDUAL,
+            )
+            album = form.save(commit=False)
+            album.artist = artist
+            album.save()
 
             return redirect("show_album", pk=album.pk)
     else:
